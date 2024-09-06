@@ -1,0 +1,19 @@
+name: scp files
+on: [push]
+jobs:
+
+  copy:
+    name: Copy
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    - name: copy file via ssh, use password
+      uses: appleboy/scp-action@v0.1.7
+      with:
+        host: ssh.ocf.berkeley.edu
+        username: ${{ secrets.OCF_USERNAME }}
+        password: ${{ secrets.OCF_PASSWORD }}
+        port: 22
+        source: "./*"
+        target: ~/public_html
+
