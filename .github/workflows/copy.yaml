@@ -18,7 +18,7 @@ jobs:
         run: >
           rsync 
           --rsh="sshpass -p ${{ secrets.OCF_PASSWORD }} ssh -o StrictHostKeyChecking=no -l ${{ secrets.OCF_USERNAME }}"
-          -avz --delete 
+          -avz --delete --delete-excluded
           --exclude '.git' 
           --exclude '.github' 
           --exclude '.DS_Store' 
