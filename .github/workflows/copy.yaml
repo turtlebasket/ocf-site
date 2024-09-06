@@ -15,5 +15,9 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Copy file via ssh, use password
-        run: |
-          sshpass -p "${{ secrets.OCF_PASSWORD }}" scp -P 22 -r --exclude='.git' --exclude='.github' --exclude='.DS_Store' ./* ${{ secrets.OCF_USERNAME }}@ssh.ocf.berkeley.edu:~/public_html
+        run: >
+          sshpass -p "${{ secrets.OCF_PASSWORD }}" 
+          rsync -avz 
+          --delete --exclude '.git' --exclude '.github' --exclude '.DS_Store' 
+          ./* 
+          ${{ secrets.OCF_USERNAME }}@ssh.ocf.berkeley.edu:~/public_html
