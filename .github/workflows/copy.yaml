@@ -1,5 +1,5 @@
 name: scp files
-on: 
+on:
   push:
     branches:
       - master
@@ -7,19 +7,13 @@ on:
     branches:
       - master
 jobs:
-
   copy:
     name: Copy
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v4
-    - name: copy file via ssh, use password
-      uses: appleboy/scp-action@v0.1.7
-      with:
-        host: ssh.ocf.berkeley.edu
-        username: ${{ secrets.OCF_USERNAME }}
-        password: ${{ secrets.OCF_PASSWORD }}
-        port: 22
-        source: "./*"
-        target: ~/public_html
+      - name: Checkout
+        uses: actions/checkout@v4
 
+      - name: Copy file via ssh, use password
+        run: |
+          sshpass -p "${{ secrets.OCF_PASSWORD }}" scp -P 22 -r --exclude='.git' --exclude='.github' --exclude='.DS_Store' ./* ${{ secrets.OCF_USERNAME }}@ssh.ocf.berkeley.edu:~/public_html
