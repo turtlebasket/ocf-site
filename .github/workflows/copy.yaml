@@ -16,8 +16,9 @@ jobs:
 
       - name: Copy file via ssh, use password
         run: >
-          sshpass -p "${{ secrets.OCF_PASSWORD }}" 
-          rsync -avz 
+          rsync 
+          --rsh="sshpass -p ${{ secrets.OCF_PASSWORD }} ssh -o StrictHostKeyChecking=no -l ${{ secrets.OCF_USERNAME }}"
+          -avz 
           --delete --exclude '.git' --exclude '.github' --exclude '.DS_Store' 
           ./* 
-          ${{ secrets.OCF_USERNAME }}@ssh.ocf.berkeley.edu:~/public_html
+          ssh.ocf.berkeley.edu:~/public_html
